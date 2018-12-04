@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+ 
+<mapper namespace="com.example.demo.dao.UserDao">
+ 
+ 
+	<select id="getNameById" resultType="com.example.demo.model.User">
+		SELECT * FROM user WHERE ID = #{id}
+	</select>
+	
+	<select id="selectUserByUserId" resultType="com.example.demo.model.User">
+		SELECT
+			id as id,
+			user_code as userCode,
+			user_name as userName,
+			date_create as dateCreate
+		
+		 FROM user WHERE user_code = #{userCode}
+	</select>
+	
+</mapper>
