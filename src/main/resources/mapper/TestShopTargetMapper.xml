@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.dao.TestShopTargetDao" >
+  <resultMap id="BaseResultMap" type="com.example.demo.model.TestShopTarget" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="date" property="date" jdbcType="VARCHAR" />
+    <result column="shop_code" property="shopCode" jdbcType="VARCHAR" />
+    <result column="valid_new_customer_target_num" property="validNewCustomerTargetNum" jdbcType="INTEGER" />
+    <result column="into_store_target_num" property="intoStoreTargetNum" jdbcType="INTEGER" />
+    <result column="order_target_num" property="orderTargetNum" jdbcType="INTEGER" />
+    <result column="delivery_target_num" property="deliveryTargetNum" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, date, shop_code, valid_new_customer_target_num, into_store_target_num, order_target_num, 
+    delivery_target_num
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from test_shop_target
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from test_shop_target
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.demo.model.TestShopTarget" >
+    insert into test_shop_target (id, date, shop_code, 
+      valid_new_customer_target_num, into_store_target_num, 
+      order_target_num, delivery_target_num)
+    values (#{id,jdbcType=INTEGER}, #{date,jdbcType=VARCHAR}, #{shopCode,jdbcType=VARCHAR}, 
+      #{validNewCustomerTargetNum,jdbcType=INTEGER}, #{intoStoreTargetNum,jdbcType=INTEGER}, 
+      #{orderTargetNum,jdbcType=INTEGER}, #{deliveryTargetNum,jdbcType=INTEGER})
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.model.TestShopTarget" >
+    update test_shop_target
+    <set >
+      <if test="date != null" >
+        date = #{date,jdbcType=VARCHAR},
+      </if>
+      <if test="shopCode != null" >
+        shop_code = #{shopCode,jdbcType=VARCHAR},
+      </if>
+      <if test="validNewCustomerTargetNum != null" >
+        valid_new_customer_target_num = #{validNewCustomerTargetNum,jdbcType=INTEGER},
+      </if>
+      <if test="intoStoreTargetNum != null" >
+        into_store_target_num = #{intoStoreTargetNum,jdbcType=INTEGER},
+      </if>
+      <if test="orderTargetNum != null" >
+        order_target_num = #{orderTargetNum,jdbcType=INTEGER},
+      </if>
+      <if test="deliveryTargetNum != null" >
+        delivery_target_num = #{deliveryTargetNum,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.example.demo.model.TestShopTarget" >
+    update test_shop_target
+    set date = #{date,jdbcType=VARCHAR},
+      shop_code = #{shopCode,jdbcType=VARCHAR},
+      valid_new_customer_target_num = #{validNewCustomerTargetNum,jdbcType=INTEGER},
+      into_store_target_num = #{intoStoreTargetNum,jdbcType=INTEGER},
+      order_target_num = #{orderTargetNum,jdbcType=INTEGER},
+      delivery_target_num = #{deliveryTargetNum,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <insert id="batchSave" parameterType="java.util.List" >
+    insert into test_shop_target (date, shop_code, 
+      valid_new_customer_target_num, into_store_target_num, order_target_num, 
+      delivery_target_num)
+    values
+    <foreach collection="list" item="item" separator="," index="index">
+      (#{item.date}, #{item.shopCode},
+      #{item.validNewCustomerTargetNum}, #{item.intoStoreTargetNum}, #{item.orderTargetNum},
+      #{item.deliveryTargetNum})
+    </foreach>
+  </insert>
+</mapper>

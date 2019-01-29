@@ -10,6 +10,7 @@ import org.thymeleaf.context.Context;
 
 import com.example.demo.service.EmailService;
 import com.example.demo.service.ShortMessageService;
+import com.example.demo.util.VideoUtil;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -56,6 +57,19 @@ public class ApplicationTests {
 	}
 	@Test
 	public void sendTemplateMail1111() {
-		shortMessageService.sendSms();
+		String path ="http://***********/image/1532505427121.mp4";
+		String host = "";
+		String lpath ="";
+		String vPath ="";
+        try {
+        	lpath = path.substring(path.lastIndexOf("/")+1,path.lastIndexOf("."))+".png";//自定义输出图片名截取与视频名一样
+            vPath = VideoUtil.randomGrabberFFmpegVideoImage(path, lpath, VideoUtil.MOD);//(这是视频的第一帧是保存的服务器的路径)
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        vPath = host+"/项目名/image/"+lpath;
+
 	}
+	
+	
 }

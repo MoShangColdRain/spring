@@ -22,6 +22,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
+		<skipTests>true</skipTests>
 	</properties>
 
 	<dependencies>
@@ -101,8 +102,55 @@
 			<artifactId>javase</artifactId>
 			<version>3.3.1</version>
 		</dependency>
+		
+		<!-- druid -->
+		<dependency>
+		    <groupId>com.alibaba</groupId>
+		    <artifactId>druid</artifactId>
+		    <version>1.1.12</version>
+		</dependency>
+		
+		  <dependency>
+		    <groupId>org.bytedeco</groupId>
+		    <artifactId>javacv-platform</artifactId>
+		    <version>1.3.1</version>
+		  </dependency>
+		
+		<!--jsp支持-->
+	    <!-- servlet 依赖. -->
+<!-- 	    <dependency>
+	        <groupId>javax.servlet</groupId>
+	        <artifactId>javax.servlet-api</artifactId>
+	      	<scope>provided</scope>
+	    </dependency>
+	    <dependency>
+	      	<groupId>javax.servlet</groupId>
+	     	<artifactId>jstl</artifactId>
+	    </dependency>
+	    tomcat 的支持.
+	    <dependency>
+	      	<groupId>org.springframework.boot</groupId>
+	      	<artifactId>spring-boot-starter-tomcat</artifactId>
+	    </dependency>
+	    <dependency>
+	      	<groupId>org.apache.tomcat.embed</groupId>
+	      	<artifactId>tomcat-embed-jasper</artifactId>
+	      	<scope>provided</scope>
+	    </dependency> -->
+		
+		<dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.9</version>
+        </dependency>
+        
+        <dependency>
+	            <groupId>org.apache.poi</groupId>
+	            <artifactId>poi-ooxml</artifactId>
+	            <version>3.9</version>
+	    </dependency>
 	</dependencies>
-
+	
 	<build>
 		<plugins>
 			<plugin>
