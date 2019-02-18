@@ -1,18 +1,5 @@
 package com.example.demo.util;
  
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
- 
-import javax.imageio.ImageIO;
-import javax.imageio.stream.ImageOutputStream;
-
 import org.bytedeco.javacpp.opencv_core;
 import org.bytedeco.javacpp.opencv_core.IplImage;
 import org.bytedeco.javacv.FFmpegFrameGrabber;
@@ -20,6 +7,14 @@ import org.bytedeco.javacv.Frame;
 import org.bytedeco.javacv.FrameGrabber.Exception;
 import org.bytedeco.javacv.Java2DFrameConverter;
 import org.bytedeco.javacv.OpenCVFrameConverter;
+
+import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageOutputStream;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
  
 public class VideoImage {
  
@@ -29,7 +24,7 @@ public class VideoImage {
 	/**
 	 * 默认截取视频的中间帧为封面
 	 */
-	public static final int MOD = 2;
+	private static final int MOD = 1;
 	
 	public static void main(String[] args) throws Exception {
 		System.out.println(randomGrabberFFmpegImage("https://souche-devqa-video-out.oss-cn-hangzhou.aliyuncs.com/material-infiniti-test-out/videos/Act-ss-mp4-hd/efeae5cfeec74129b47dd119f3143e75/f40f202d2416471faca863b80c29b615_efeae5cfeec74129b47dd119f3143e75.mp4", 1));

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.dao.TaskAnalysisDao">
+    
+    
+    <insert id="insert" parameterType="com.example.demo.model.TaskAnalysis">
+        insert into task_analysis (
+	        pass_today_count,
+	        today_unDeal_count,
+	        today_deal_count,
+	        pass_remove_count,
+	        total,
+	        percent,
+	        date)
+        values (
+	        #{passTodayCount},
+	        #{todayUnDealCount},
+	        #{todayDealCount},
+	        #{passRemoveCount},
+	        #{total},
+	        #{percent},
+	        #{date});
+    </insert>
+    
+    <select id="queryTask" resultType="com.example.demo.model.TaskAnalysis">
+        SELECT total as total,
+            today_deal_count as todayDealCount,
+            percent as percent,
+            date as date
+        from task_analysis
+        where 1 = 1
+        <if test="startDate != null">
+            and date >= #{startDate}
+        </if>
+        
+        <if test="endDate != null">
+        <![CDATA[
+            and date <= #{endDate}
+            ]]>
+        </if>
+        
+    </select>
+</mapper>   

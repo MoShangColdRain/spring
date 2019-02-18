@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.dao.TaskTestDao">
+
+<!-- 今日未处理但是以后完成的任务数 -->
+    <select id="getPassTodayTotalTaskCount" resultType="java.lang.Integer">
+        select count(id) as number from task
+        where
+        <![CDATA[
+        begin_date <= UNIX_TIMESTAMP(#{todayEnd})
+        and deal_date >= UNIX_TIMESTAMP(#{tomorrowStart})
+        and task_status = 1
+        ]]>
+        and date_delete is null
+    </select>
+   
+    <!-- 今日未处理总任务数 -->
+    <select id="getTodayUnDealTotalTaskCount" resultType="java.lang.Integer">
+        select count(id) as number from task
+        where 
+        <![CDATA[
+        begin_date <= UNIX_TIMESTAMP(#{todayEnd})
+        and task_status = 0
+        ]]>
+        and date_delete is null
+    </select>
+    
+    <!-- 今日已处理总任务数 -->
+    <select id="getTodayDealTotalTaskCount" resultType="java.lang.Integer">
+        select count(id) as number from task
+        where 
+        <![CDATA[
+        deal_date >=UNIX_TIMESTAMP(#{todayStart})
+        and deal_date <= UNIX_TIMESTAMP(#{todayEnd})
+        and task_status = 1
+        ]]>
+        and date_delete is null
+    </select>
+    
+    <!-- 昨日未处理但是以后被清理的任务数 -->
+    <select id="getPassRemoveTotalTaskCount" resultType="java.lang.Integer">
+        select count(id) as number from task
+        where 
+        <![CDATA[
+        begin_date <= UNIX_TIMESTAMP(#{todayEnd})
+        and end_date > UNIX_TIMESTAMP(#{todayEnd})
+        and task_status = 2
+        ]]>
+        and date_delete is null
+    </select>
+</mapper>   

@@ -1,5 +1,6 @@
 package com.example.demo.util;
 
+import com.example.demo.model.param.DateDto;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import org.slf4j.Logger;
@@ -783,4 +784,23 @@ public class DateUtil {
 
     }
 
+
+    public static List<DateDto> getDateList(String beginDateString, String endDateString) {
+        Date beginDate = stringToDate(beginDateString);
+        Date endDate = stringToDate(endDateString);
+        long disDay = getDisDay(beginDate, endDate);
+        List<DateDto> list = Lists.newArrayList();
+        for (int i = 0; i < disDay + 1; i++) {
+            Date beginningDate = addDay(beginDate, i);
+            Date nextDate = addDay(beginDate, i + 1);
+            Date monthFirstDate = getThisMonthFirstDate(beginningDate);
+            DateDto dto = DateDto.builder()
+                    .beginDate(beginningDate)
+                    .monthFirstDate(monthFirstDate)
+                    .nextDate(nextDate)
+                    .build();
+            list.add(dto);
+        }
+        return list;
+    }
 }
