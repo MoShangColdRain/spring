@@ -794,11 +794,15 @@ public class DateUtil {
             Date beginningDate = addDay(beginDate, i);
             Date nextDate = addDay(beginDate, i + 1);
             Date monthFirstDate = getThisMonthFirstDate(beginningDate);
-            DateDto dto = DateDto.builder()
-                    .beginDate(beginningDate)
-                    .monthFirstDate(monthFirstDate)
-                    .nextDate(nextDate)
-                    .build();
+//            DateDto dto = DateDto.builder()
+//                    .beginDate(beginningDate)
+//                    .monthFirstDate(monthFirstDate)
+//                    .nextDate(nextDate)
+//                    .build();
+            DateDto dto = new DateDto();
+            dto.setBeginDate(beginningDate);
+            dto.setMonthFirstDate(monthFirstDate);
+            dto.setNextDate(nextDate);
             list.add(dto);
         }
         return list;

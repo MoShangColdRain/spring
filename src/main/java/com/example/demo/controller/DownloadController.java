@@ -17,6 +17,7 @@ import org.thymeleaf.util.StringUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.util.List;
@@ -31,7 +32,7 @@ public class DownloadController {
 	@Autowired
 	private TaskTestService taskTestService;
 	
-	@RequestMapping(value="/downloadCSV",method=RequestMethod.GET)
+	@RequestMapping(value="/downloadExcel",method=RequestMethod.GET)
 	public void getContractDetailPdfFile(@RequestParam(value = "beginDate",required = true) String  beginDate,
 										 @RequestParam(value = "endDate",required = true) String  endDate, HttpServletRequest request , HttpServletResponse response) throws IOException {
 		try {
@@ -39,11 +40,11 @@ public class DownloadController {
 			OutputStream out = response.getOutputStream();
 			response.reset();// 清空输出流
 			// 设定输出文件头
-			response.setHeader("Content-disposition", "attachment; filename=" + toUtf8String("sss任务完成率统计表2", request) + ".xlsx");
+			response.setHeader("Content-disposition", "attachment; filename=" + toUtf8String("英菲任务完成率统计表2", request) + ".xlsx");
 			// 定义输出类型
 			response.setContentType("application/msexcel");
 			List<List<String>> result = taskTestService.exportData(beginDate, endDate);
-			String fileName = ("/test1.xlsx");
+			String fileName = ("templates/test1.xlsx");
 			String date = "";
 			String userAcc = "";
 			ExcelUtil.fillData(result, fileName, date, userAcc, 1, 0, out);
@@ -54,8 +55,8 @@ public class DownloadController {
 	}
 
 	@RequestMapping(value="/repairByDate",method=RequestMethod.GET)
-	public String repairByDate(@RequestParam(value = "beginDate", name = "开始时间 格式：2018-05-15") String beginDate,
-									   @RequestParam(value = "endDate",name = "结束时间 格式：2018-05-15") String endDate) {
+	public String repairByDate(@RequestParam(value = "beginDate") String beginDate,
+									   @RequestParam(value = "endDate") String endDate) {
 
 		long beginTime = System.currentTimeMillis();
 		List<DateDto> dateList = DateUtil.getDateList(beginDate, endDate);
@@ -68,6 +69,38 @@ public class DownloadController {
 		return "";
 	}
 
+	@RequestMapping(value="/downloadCSV",method=RequestMethod.GET)
+	public void getContractDetailPdfFile2(@RequestParam(value = "beginDate", required = true) String beginDate,
+			@RequestParam(value = "endDate", required = true) String endDate, HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		OutputStream outputStream = null;
+        InputStream is = null;
+        try {
+        	is = taskTestService.getInputStream(beginDate, endDate);
+            response.setHeader("content-disposition", "attachment;filename=" + toUtf8String("英菲任务完成率统计表", request) + ".csv" );
+            //设置CSV三字节，使其可以使用UTF-8编码
+            byte[] bom ={(byte) 0xEF,(byte) 0xBB,(byte) 0xBF};
+            outputStream = response.getOutputStream();
+            outputStream.write(bom);
+            int temp = 0;
+            while((temp = is.read()) != -1){
+                outputStream.write(temp);
+            }
+
+        } catch (Exception e) {
+            logger.error("导出数据出现异常", e);
+        } finally {
+            try {
+                if (null != outputStream) {
+                    outputStream.flush();
+                    outputStream.close();
+                }
+                if(null != is)is.close();
+            } catch (Exception e) {
+                logger.error("Exception is ", e);
+            }
+        }
+	}
 	private  String toUtf8String(String fileName, HttpServletRequest request) throws Exception {
 		final String userAgent = request.getHeader("USER-AGENT");
 		String finalFileName = null;

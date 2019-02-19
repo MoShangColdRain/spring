@@ -7,7 +7,10 @@ import com.example.demo.service.TaskTestService;
 import com.example.demo.util.DateTestUtil;
 import com.example.demo.util.DateUtil;
 import org.apache.poi.xssf.usermodel.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -24,8 +27,10 @@ import java.util.List;
  * @author: lx
  * @create: 2019-02-18
  **/
+@Service
 public class TaskTestServiceImpl implements TaskTestService {
 
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private static final String ENCODING = "UTF-8";
 
@@ -58,6 +63,7 @@ public class TaskTestServiceImpl implements TaskTestService {
         }
         taskAnalysis.setPercent(percent);
         taskAnalysis.setDate(day);
+        logger.info("日期：" + DateUtil.dateFmt("yyyy-MM-dd", day));
         taskAnalysisDao.insert(taskAnalysis);
     }
 
