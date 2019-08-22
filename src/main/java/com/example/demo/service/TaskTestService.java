@@ -18,4 +18,8 @@ public interface TaskTestService {
 
     StringBuffer exportData2(String startDate, String endDate);
 
-}
+    void followRate(Date startDate, Date endDate);
+
+    List<List<String>> downloadFollowRate(String startDate, String endDate);
+
+    }

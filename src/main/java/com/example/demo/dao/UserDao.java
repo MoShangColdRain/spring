@@ -10,4 +10,6 @@ public interface UserDao {
 	User getNameById(User user);
 	
 	User selectUserByUserId(String userId);
+
+	void save(User user);
 }

@@ -74,4 +74,17 @@
       delivery_target_num = #{deliveryTargetNum,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <insert id="batchSave" parameterType="java.util.List" >
+    insert into test_shop_series_target (date, shop_code, series_code,
+    valid_new_customer_target_num, into_store_target_num, order_target_num,
+    delivery_target_num)
+    values
+    <foreach collection="list" item="item" separator="," index="index">
+      (#{item.date}, #{item.shopCode}, #{item.seriesCode},
+      #{item.validNewCustomerTargetNum}, #{item.intoStoreTargetNum}, #{item.orderTargetNum},
+      #{item.deliveryTargetNum})
+    </foreach>
+  </insert>
+
 </mapper>

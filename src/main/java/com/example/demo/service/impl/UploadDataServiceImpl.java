@@ -1,12 +1,12 @@
 package com.example.demo.service.impl;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
+import com.example.demo.dao.TestShopSeriesTargetDao;
+import com.example.demo.dao.TestShopTargetDao;
+import com.example.demo.model.TestShopSeriesTarget;
+import com.example.demo.model.TestShopTarget;
+import com.example.demo.model.param.ImportDataResult;
+import com.example.demo.service.UploadDataService;
+import com.example.demo.util.DateUtil;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -21,11 +21,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.demo.dao.TestShopTargetDao;
-import com.example.demo.model.TestShopTarget;
-import com.example.demo.model.param.ImportDataResult;
-import com.example.demo.service.UploadDataService;
-import com.example.demo.util.DateUtil;
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class UploadDataServiceImpl implements UploadDataService {
@@ -34,6 +35,10 @@ public class UploadDataServiceImpl implements UploadDataService {
     
     @Autowired
     private TestShopTargetDao testShopTargetDao;
+
+
+    @Autowired
+    private TestShopSeriesTargetDao testShopSeriesTargetDao;
 
     private static int successCount = 0;
     private static int notFindCount = 0;
@@ -189,6 +194,10 @@ public class UploadDataServiceImpl implements UploadDataService {
     
     public void batchSave(List<TestShopTarget> testShopTargetList) {
     	testShopTargetDao.batchSave(testShopTargetList);
+    }
+
+    public void batchSeriesSave(List<TestShopSeriesTarget> testShopSeriesTargetList) {
+        testShopSeriesTargetDao.batchSave(testShopSeriesTargetList);
     }
 
 }

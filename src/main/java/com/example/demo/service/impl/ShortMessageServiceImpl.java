@@ -1,11 +1,5 @@
 package com.example.demo.service.impl;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.IAcsClient;
 import com.aliyuncs.dysmsapi.model.v20170525.QuerySendDetailsRequest;
@@ -17,6 +11,11 @@ import com.aliyuncs.exceptions.ServerException;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
 import com.example.demo.service.ShortMessageService;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Service
 public class ShortMessageServiceImpl implements ShortMessageService {
@@ -31,7 +30,8 @@ public class ShortMessageServiceImpl implements ShortMessageService {
     
     @Value("${accessKeySecret}")
     private String accessKeySecret;
-    
+
+    @Override
     public SendSmsResponse sendSms() {
 	
 	    //可自助调整超时时间
@@ -52,6 +52,7 @@ public class ShortMessageServiceImpl implements ShortMessageService {
 	    SendSmsRequest request = new SendSmsRequest();
 	    //必填:待发送手机号
 	    request.setPhoneNumbers("17302559756");
+	    //
 	    //必填:短信签名-可在短信控制台中找到
 	    request.setSignName("陌上冷雨");
 	    //必填:短信模板-可在短信控制台中找到
@@ -79,7 +80,8 @@ public class ShortMessageServiceImpl implements ShortMessageService {
 	
 	    return sendSmsResponse;
     }
-    
+
+    @Override
     public QuerySendDetailsResponse querySendDetails(String bizId) throws ClientException {
 
         //可自助调整超时时间

@@ -1,9 +1,10 @@
 package com.example.demo.model.param;
 
-import java.util.Date;
-
 import lombok.Builder;
 import lombok.Data;
+
+import java.util.Date;
+
 
 /**
  * @author liuxiang
@@ -17,7 +18,5 @@ public class DateDto {
     private Date nextDate;
 
     private Date monthFirstDate;
-    
-}
 
-  
+}

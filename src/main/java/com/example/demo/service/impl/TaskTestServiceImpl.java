@@ -1,7 +1,9 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.dao.CustomerDao;
 import com.example.demo.dao.TaskAnalysisDao;
 import com.example.demo.dao.TaskTestDao;
+import com.example.demo.model.FollowRate;
 import com.example.demo.model.TaskAnalysis;
 import com.example.demo.service.TaskTestService;
 import com.example.demo.util.DateTestUtil;
@@ -39,6 +41,9 @@ public class TaskTestServiceImpl implements TaskTestService {
 
     @Autowired
     private TaskAnalysisDao taskAnalysisDao;
+
+    @Autowired
+    private CustomerDao customerDao;
 
     @Override
     public void test(Date day) {
@@ -151,5 +156,43 @@ public class TaskTestServiceImpl implements TaskTestService {
 
         }
         return stringBuffer;
+    }
+
+    @Override
+    public void followRate(Date startDate, Date endDate){
+        FollowRate followRate = new FollowRate();
+        Integer customerCount = customerDao.getCustomerSum(startDate, endDate);
+        Integer followCount = customerDao.getFollowSum(startDate, endDate);
+
+        double percent = 0;
+        if (customerCount > 0) {
+            BigDecimal bg = new BigDecimal((double)followCount / customerCount).setScale(4, RoundingMode.HALF_UP);
+
+            percent = bg.doubleValue();
+        }
+
+        followRate.setCustomerSumCount(customerCount);
+        followRate.setCustomerFollowCount(followCount);
+        followRate.setFollowRate(percent);
+        followRate.setDate(startDate);
+
+        customerDao.insert(followRate);
+    }
+
+
+    @Override
+    public List<List<String>> downloadFollowRate(String startDate, String endDate) {
+        List<FollowRate> followRateList = customerDao.queryFollowRate(startDate, endDate);
+        List<List<String>> result = new ArrayList<>();
+        List<String> list;
+        for (FollowRate followRate : followRateList) {
+            list = new ArrayList<>();
+            list.add(followRate.getCustomerFollowCount().toString());
+            list.add(followRate.getCustomerSumCount().toString());
+            list.add(followRate.getFollowRate().toString());
+            list.add(DateUtil.dateFmt("yyyy-MM-dd", followRate.getDate()));
+            result.add(list);
+        }
+        return result;
     }
 }

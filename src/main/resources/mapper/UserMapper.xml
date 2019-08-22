@@ -17,5 +17,8 @@
 		
 		 FROM user WHERE user_code = #{userCode}
 	</select>
-	
+
+	<insert id="save" parameterType="com.example.demo.model.User">
+		insert into user (user_code, user_name, date_create) value (#{userCode}, #{userName},now())
+	</insert>
 </mapper>

@@ -1,8 +1,10 @@
 package com.example.demo.dao;
 
+import com.example.demo.model.TestShopSeriesTarget;
+import com.example.demo.model.TestShopTarget;
 import org.apache.ibatis.annotations.Mapper;
 
-import com.example.demo.model.TestShopSeriesTarget;
+import java.util.List;
 
 @Mapper
 public interface TestShopSeriesTargetDao {
@@ -17,4 +19,7 @@ public interface TestShopSeriesTargetDao {
     int updateByPrimaryKeySelective(TestShopSeriesTarget record);
 
     int updateByPrimaryKey(TestShopSeriesTarget record);
+
+    void batchSave(List<TestShopSeriesTarget> testShopSeriesTargetList);
+
 }

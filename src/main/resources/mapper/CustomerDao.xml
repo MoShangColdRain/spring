@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.dao.CustomerDao">
+
+    <select id="getCustomerSum" resultType="java.lang.Integer">
+
+		SELECT
+			count(*) AS sum_count
+		FROM
+			customer
+		WHERE
+			date_create >= #{beginDate} and date_create &lt; #{endDate}
+    </select>
+
+    <select id="getFollowSum" resultType="java.lang.Integer">
+
+        SELECT
+            count(*) AS follow_time
+        FROM
+            customer c
+        INNER JOIN(
+        SELECT
+        customer_id ,
+            min(date_create) AS date_follow
+        FROM
+          follow f
+        WHERE
+          f.date_create >= #{beginDate}
+        GROUP BY
+          customer_id
+        ) fm ON c.id = fm.customer_id
+        WHERE
+            UNIX_TIMESTAMP(date_follow) - UNIX_TIMESTAMP(date_create) &lt; 86400
+            AND date_create >= #{beginDate} and date_create &lt; #{endDate}
+    </select>
+
+    <insert id="insert" parameterType="com.example.demo.model.FollowRate">
+        insert into follow_rate (
+	        date,
+	        customer_sum_count,
+	        customer_follow_count,
+	        follow_rate)
+        values (
+	        #{date},
+	        #{customerSumCount},
+	        #{customerFollowCount},
+	        #{followRate})
+    </insert>
+
+    <select id="queryFollowRate" resultType="com.example.demo.model.FollowRate">
+        SELECT
+            date AS date,
+            customer_sum_count as customerSumCount,
+            customer_follow_count AS customerFollowCount,
+            follow_rate AS followRate
+        FROM
+        follow_rate
+        where 1 = 1
+        <if test="startDate != null">
+            and date >= #{startDate}
+        </if>
+
+        <if test="endDate != null">
+            <![CDATA[
+            and date <= #{endDate}
+            ]]>
+        </if>
+    </select>
+</mapper>   
